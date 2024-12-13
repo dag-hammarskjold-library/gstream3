@@ -1,0 +1,25 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.709.0",
+    "@aws-sdk/credential-providers": "^3.709.0",
+    "@nuxtjs/tailwindcss": "^6.12.2",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.7.9",
+    "dayjs-nuxt": "^2.1.11",
+    "nuxt": "^3.14.1592",
+    "vue": "latest",
+    "vue-router": "latest",
+    "xml2js": "^0.6.2"
+  }
+}
