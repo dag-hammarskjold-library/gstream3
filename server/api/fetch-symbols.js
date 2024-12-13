@@ -8,6 +8,8 @@ export default defineEventHandler(async (event) => {
     console.log("Authenticating with AWS and getting parameters.")
     const config = useRuntimeConfig()
 
+    console.log(process.env.AWS_ACCESS_KEY_ID.substring(0,4))
+
     const ssm = new SSMClient({
         region: process.env.AWS_DEFAULT_REGION,
         credentials: {
