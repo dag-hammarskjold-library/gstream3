@@ -9,10 +9,10 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
 
     const ssm = new SSMClient({
-        region: config.AWS_DEFAULT_REGION,
+        region: process.env.AWS_DEFAULT_REGION,
         credentials: {
-            accessKeyId: config.AWS_ACCESS_KEY_ID,
-            secretAccessKey: config.AWS_SECRET_ACCESS_KEY
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
         }
     })
 
