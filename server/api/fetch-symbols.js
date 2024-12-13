@@ -8,14 +8,23 @@ export default defineEventHandler(async (event) => {
     console.log("Authenticating with AWS and getting parameters.")
     const config = useRuntimeConfig()
 
-    console.log(process.env.AWS_ACCESS_KEY_ID.substring(0,4))
+    const credentials = () => {
+        if (process.env.AMP) {
+            // We're in an Amplify deploy
+            return {
+                roleArn: `arn:aws:iam::${process.env.ACCOUNT}:role/service-role/AmplifySSRLoggingRole-3c3b924d-4fbc-4925-bb44-215e447c8bb7`
+            }
+        } else {
+            return {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+            }
+        }
+    }
 
     const ssm = new SSMClient({
         region: process.env.AWS_DEFAULT_REGION,
-        credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-        }
+        credentials: credentials
     })
 
     const command = new GetParameterCommand({
