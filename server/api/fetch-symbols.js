@@ -1,4 +1,5 @@
 import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm"
+import { secret } from "@aws-amplify/backend"
 import axios from "axios"
 import dayjs from 'dayjs'
 import AdmZip from 'adm-zip'
@@ -8,12 +9,23 @@ export default defineEventHandler(async (event) => {
     console.log("Authenticating with AWS and getting parameters.")
     const config = useRuntimeConfig()
 
+    const credentials = () => {
+        if (process.env.DEV) {
+            return {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+            }
+        } else {
+            return {
+                accessKeyId: secret('AWS_ACCESS_KEY_ID'),
+                secretAccessKey: secret('AWS_SECRET_ACCESS_KEY')
+            }
+        }
+    }
+
     const ssm = new SSMClient({
         region: process.env.AWS_DEFAULT_REGION,
-        credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-        }
+        credentials: credentials
     })
 
     const command = new GetParameterCommand({
