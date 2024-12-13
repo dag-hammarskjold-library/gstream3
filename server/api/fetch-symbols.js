@@ -10,17 +10,9 @@ export default defineEventHandler(async (event) => {
     console.log("Using GDOC_ENV", config.public.GDOC_ENV)
 
     const credentials = () => {
-        if (process.env.AMP) {
-            // We're in an Amplify deploy
-            console.log("Using IAM Service Role for Amplify...")
-            return {
-                roleArn: `arn:aws:iam::${process.env.ACCOUNT}:role/service-role/AmplifySSRLoggingRole-3c3b924d-4fbc-4925-bb44-215e447c8bb7`
-            }
-        } else {
-            return {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-            }
+        return {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
         }
     }
 
