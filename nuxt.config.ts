@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     //REGION: process.env.REGION,
     public: {
       // Override this with the environment variable NUXT_PUBLIC_GDOC_ENV
-      //GDOC_ENV: "qa"
+      GDOC_ENV: process.env.NUXT_PUBLIC_GDOC_ENV
     },
   },
   app: {
