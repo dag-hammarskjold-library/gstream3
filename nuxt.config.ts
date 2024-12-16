@@ -1,13 +1,9 @@
-import { secret } from '@aws-amplify/backend'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: ['dayjs-nuxt', '@nuxtjs/tailwindcss'],
   runtimeConfig: {
-    AWS_ACCESS_KEY_ID: secret('AWS_ACCESS_KEY_ID') || 'none',
-    AWS_SECRET_ACCESS_KEY: secret('AWS_SECRET_ACCESS_KEY') || 'none',
     public: {
       GDOC_ENV: process.env.GDOC_ENV || 'prod'
     },
