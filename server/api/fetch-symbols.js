@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     // First get the data we need from the Parameter Store
     const config = useRuntimeConfig()
     const gdocEnv = config.public.gdocEnv
-    console.log("Using GDOC_ENV", gdoc_env)
+    console.log("Using GDOC_ENV", gdocEnv)
     const id = config.AwsAcessKeyId
     const key = config.AwsSecretAccessKey
 
