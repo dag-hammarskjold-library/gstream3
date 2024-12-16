@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.709.0",
-    "@aws-sdk/credential-providers": "^3.709.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "adm-zip": "^0.5.16",
     "axios": "^1.7.9",

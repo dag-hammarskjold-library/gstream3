@@ -1,4 +1,5 @@
 import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm"
+import { secret } from '@aws-amplify/backend'
 import axios from "axios"
 import dayjs from 'dayjs'
 import AdmZip from 'adm-zip'
@@ -8,8 +9,8 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const gdoc_env = config.public.GDOC_ENV
     console.log("Using GDOC_ENV", gdoc_env)
-    const id = process.env.ID
-    const key = process.env.KEY
+    const id = process.env.AWS_ACCESS_KEY_ID || secret('AWS_ACCESS_KEY_ID')
+    const key = process.env.AWS_SECRET_ACCESS_KEY || secret('AWS_SECRET_ACCESS_KEY')
 
     console.log("key", id)
     const credentials = () => {
