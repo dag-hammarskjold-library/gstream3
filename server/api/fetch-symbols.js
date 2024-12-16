@@ -6,10 +6,12 @@ import AdmZip from 'adm-zip'
 export default defineEventHandler(async (event) => {
     // First get the data we need from the Parameter Store
     const config = useRuntimeConfig()
-    const gdoc_env = config.public.GDOC_ENV
+    const gdocEnv = config.public.gdocEnv
     console.log("Using GDOC_ENV", gdoc_env)
-    const id = config.AWS_ACCESS_KEY_ID
-    const key = config.AWS_SECRET_ACCESS_KEY
+    const id = config.AwsAcessKeyId
+    const key = config.AwsSecretAccessKey
+
+    console.log(id, key)
 
     console.log("key", id)
     const credentials = () => {
@@ -25,7 +27,7 @@ export default defineEventHandler(async (event) => {
         credentials: credentials
     })
 
-    const parameter = `gdoc-${gdoc_env}-api-secrets`
+    const parameter = `gdoc-${gdocEnv}-api-secrets`
     const command = new GetParameterCommand({
         Name: parameter,
         WithDecryption: false
