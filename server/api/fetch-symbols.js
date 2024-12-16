@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
     const gdoc_env = config.public.GDOC_ENV
     console.log("Using GDOC_ENV", gdoc_env)
 
+    console.log("key", process.env.AWS_ACCESS_KEY_ID.substring(process.env.AWS_ACCESS_KEY_ID.length - 4))
     const credentials = () => {
         return {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
