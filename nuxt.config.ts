@@ -4,6 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['dayjs-nuxt', '@nuxtjs/tailwindcss'],
   runtimeConfig: {
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || 'none',
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || 'none',
     public: {
       GDOC_ENV: process.env.GDOC_ENV || 'prod'
     },

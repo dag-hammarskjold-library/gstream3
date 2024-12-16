@@ -8,8 +8,8 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const gdoc_env = config.public.GDOC_ENV
     console.log("Using GDOC_ENV", gdoc_env)
-    const id = process.env.ID
-    const key = process.env.KEY
+    const id = config.AWS_ACCESS_KEY_ID
+    const key = config.AWS_SECRET_ACCESS_KEY
 
     console.log("key", id)
     const credentials = () => {
