@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     // First get the data we need from the Parameter Store
     console.log("Authenticating with AWS and getting parameters.")
     const config = useRuntimeConfig()
-    console.log("Using GDOC_ENV", process.env.NUXT_PUBLIC_GDOC_ENV)
+    console.log("Using GDOC_ENV", config.GDOC_ENV)
 
     const credentials = () => {
         return {
