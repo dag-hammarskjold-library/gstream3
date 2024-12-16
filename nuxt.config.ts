@@ -4,8 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['dayjs-nuxt', '@nuxtjs/tailwindcss'],
   runtimeConfig: {
-    ID: process.env.ID,
-    KEY: process.env.KEY,
     public: {
       GDOC_ENV: process.env.GDOC_ENV || 'prod'
     },
