@@ -1,0 +1,32 @@
+name: (Prod) Build and push to ECR
+
+on:
+  push:
+    tags:
+      # Only build and deploy when a new tag is created matching a semantic version.
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+            ref: ${{github.ref}}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{secrets.AWS_REGION}}  
+
+      - name: Build and Push Nuxt Image
+        run: |
+          docker build -t gstream/nuxt:prod .
+          docker tag gstream/nuxt:prod ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${AWS_REGION}.amazonaws.com/gstream/nuxt:prod
+          aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${AWS_REGION}.amazonaws.com
+          docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${AWS_REGION}.amazonaws.com/gstream/nuxt:prod
