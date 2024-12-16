@@ -8,7 +8,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     AWS_ACCESS_KEY_ID: secret('AWS_ACCESS_KEY_ID') || 'none',
     AWS_SECRET_ACCESS_KEY: secret('AWS_SECRET_ACCESS_KEY') || 'none',
-    AWS_DEFAULT_REGION: secret('AWS_DEFAULT_REGION') || 'us-east-1',
     public: {
       GDOC_ENV: process.env.GDOC_ENV || 'prod'
     },
