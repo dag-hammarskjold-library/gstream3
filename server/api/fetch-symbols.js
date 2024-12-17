@@ -11,9 +11,6 @@ export default defineEventHandler(async (event) => {
     const id = config.AwsAcessKeyId
     const key = config.AwsSecretAccessKey
 
-    console.log(id, key)
-
-    console.log("key", id)
     const credentials = () => {
         return {
             accessKeyId: id,

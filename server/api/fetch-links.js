@@ -20,21 +20,25 @@ export default defineEventHandler(async (event) => {
     const dlxData = await dlxJson.data
 
     // Get the record if we find one
-    if (dlxData.length == 1) {
-        const recordResponse = await fetch(dlxData[0])
-        const recordJson = await recordResponse.json()
-        const recordFiles = await recordJson.data.files
+    try {
+        if (dlxData.length == 1) {
+            const recordResponse = await fetch(dlxData[0])
+            const recordJson = await recordResponse.json()
+            const recordFiles = await recordJson.data.files
 
-        // And look through the files to display the English file if there is one
-        recordFiles.forEach(rf => {
-            if (rf.language == 'en') {
-                returnData.push({
-                    "name": "DLX",
-                    "url": `${rf.url}?action=open`
-                })
-            }
-        })
+            // And look through the files to display the English file if there is one
+            recordFiles.forEach(rf => {
+                if (rf.language == 'en') {
+                    returnData.push({
+                        "name": "DLX",
+                        "url": `${rf.url}?action=open`
+                    })
+                }
+            })
 
+        }
+    } catch (err) {
+        console.log("Could not retrieve a DLX link. Maybe it wasn't imported?", query.symbol)
     }
 
     // Search UNDL via the search API
@@ -43,23 +47,27 @@ export default defineEventHandler(async (event) => {
     const undlResponse = await fetch(undlSearchUrl)
     const undlData = await undlResponse.text()
     let undlJs = {}
-    xml2js.parseString(undlData, function (err, result) {
-        if (result.collection.record.length == 1) {
-            undlJs = result.collection.record[0]
-        }
-    })
-    const undlUrl = undlJs.datafield.filter(df => {
-        const language = df.subfield.find(sf => sf.$.code == 'y' && sf._ == 'English')
-        return language
-    }).map(df => {
-        const url = df.subfield.find(sf => sf.$.code == 'u')._
-        return url
-    })
-    if (undlUrl && undlUrl.length == 1) {
-        returnData.push({
-            "name": "UNDL",
-            "url": undlUrl[0]
+    try {
+        xml2js.parseString(undlData, function (err, result) {
+            if (result.collection.record.length == 1) {
+                undlJs = result.collection.record[0]
+            }
         })
+        const undlUrl = undlJs.datafield.filter(df => {
+            const language = df.subfield.find(sf => sf.$.code == 'y' && sf._ == 'English')
+            return language
+        }).map(df => {
+            const url = df.subfield.find(sf => sf.$.code == 'u')._
+            return url
+        })
+        if (undlUrl && undlUrl.length == 1) {
+            returnData.push({
+                "name": "UNDL",
+                "url": undlUrl[0]
+            })
+        }
+    } catch (err) {
+        console.log("Could not retrieve a UNDL link. Maybe it wasn't imported?", query.symbol)
     }
 
     return returnData
