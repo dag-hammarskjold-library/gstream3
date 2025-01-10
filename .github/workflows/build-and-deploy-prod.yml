@@ -1,4 +1,4 @@
-name: (Prod) Build and push to ECR
+name: (Prod) Build and deploy
 
 on:
   push:
