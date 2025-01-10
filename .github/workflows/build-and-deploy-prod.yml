@@ -60,13 +60,13 @@ jobs:
           script: sudo rm -rf /var/www/gstream/*
       
       - name: scp dist to host
-        uses: appleboy/scp-action@v0.1.7
+        uses: garygrossgarten/github-action-scp@0.9.0
         with:
           host: ${{ secrets.EC2_HOSTNAME }} 
           username: ec2-user 
-          key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          source: dist/*
-          target: /var/www/gstream/
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }} 
+          local: dist/*
+          remote: /var/www/gstream/
 
       - name: Restart service
         uses: appleboy/ssh-action@v1.2.0
