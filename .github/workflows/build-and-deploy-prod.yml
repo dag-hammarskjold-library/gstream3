@@ -53,13 +53,13 @@ jobs:
           script: sudo rm -rf /var/www/gstream/*
       
       - name: scp dist to host
-        uses: garygrossgarten/github-action-scp@0.9.0
+        uses: pierrickdelrieu/scp-action@v0.1.0
         with:
           host: ${{ secrets.EC2_HOSTNAME }} 
-          username: ec2-user 
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }} 
-          local: dist
-          remote: /var/www/gstream/
+          ssh_username: ec2-user 
+          ssh_key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          source_dir: dist
+          destination_dir: /var/www/gstream/
 
       - name: Restart service
         uses: appleboy/ssh-action@v1.2.0
