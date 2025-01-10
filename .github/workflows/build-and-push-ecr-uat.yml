@@ -2,15 +2,11 @@ name: Build and push to ECR
 
 on:
   push:
-    branches: [_main]
+    branches: [main]
 
 env:
   AWS_REGION: ${{secrets.AWS_REGION}}
   ECR_REPOSITORY: gstream/nuxt
-  ECS_SERVICE: gstreamUATService
-  ECS_CLUSTER: gstreamUATCluster
-  ECS_TASK_DEFINITION: .build/ecs-uat.json
-  CONTAINER_NAME: gstreamUATContainer
 
 jobs:
   build:
@@ -36,6 +32,6 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:uat .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:uat
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:uat" >> $GITHUB_OUTPUT
