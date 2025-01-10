@@ -32,12 +32,9 @@ jobs:
         run: |
           mkdir -p dist
 
-      - name: Login to AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Copy generated files to dist directory
+        run: |
+          cp -r .output/* dist/
 
       - name: Stop gstream service
         uses: appleboy/ssh-action@v1.2.0
@@ -61,7 +58,7 @@ jobs:
           host: ${{ secrets.EC2_HOSTNAME }} 
           username: ec2-user 
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }} 
-          local: .output/*
+          local: dist
           remote: /var/www/gstream/
 
       - name: Restart service
