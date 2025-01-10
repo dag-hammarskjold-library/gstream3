@@ -42,21 +42,31 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      
-      - name: Add EC2 host key to known_hosts
-        run: |
-          ssh-keyscan -H ${{ secrets.EC2_HOSTNAME }} >> ~/.ssh/known_hosts
 
-      - name: Connect to EC2 instance
+      - name: Stop gstream service
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOSTNAME }} 
           username: ec2-user 
           key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          script: |
-            sudo systemctl stop gstream.service 
-            sudo rm -rf /var/www/gstream/*
-            scp -r -P 22 dist/ ec2-user@${{ secrets.EC2_HOSTNAME }}:/var/www/gstream/
+          script: sudo systemctl stop gstream.service 
+      
+      - name: Remove existing deployment
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOSTNAME }} 
+          username: ec2-user 
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          script: sudo rm -rf /var/www/gstream/*
+      
+      - name: scp dist to host
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOSTNAME }} 
+          username: ec2-user 
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          source: dist/*
+          target: /var/www/gstream/
 
       - name: Restart service
         uses: appleboy/ssh-action@v1.2.0
