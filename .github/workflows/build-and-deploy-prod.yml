@@ -37,30 +37,30 @@ jobs:
           cp -r .output/* dist/
 
       - name: Login to AWS
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Connect to EC2 instance
         uses: appleboy/ssh-action@v1.2.0
-          with:
-            hosts: ${{ secrets.EC2_HOSTNAME }} 
-            username: ec2-user 
-            key: ${{ secrets.SSH_PRIVATE_KEY }} 
-            script: |
-              sudo systemctl stop gstream.service 
-              sudo rm -rf /var/www/gstream/*
-              scp -r -P 22 dist/ ec2-user@${{ secrets.EC2_HOSTNAME }}:/var/www/gstream/
+        with:
+          host: ${{ secrets.EC2_HOSTNAME }} 
+          username: ec2-user 
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          script: |
+            sudo systemctl stop gstream.service 
+            sudo rm -rf /var/www/gstream/*
+            scp -r -P 22 dist/ ec2-user@${{ secrets.EC2_HOSTNAME }}:/var/www/gstream/
 
       - name: Restart service
         uses: appleboy/ssh-action@v1.2.0
-          with:
-            hosts: ${{ secrets.EC2_HOSTNAME }} 
-            username: ec2-user 
-            key: ${{ secrets.SSH_PRIVATE_KEY }} 
-            script: |
-              sudo systemctl daemon-reload
-              sudo systemctl start gstream.service
-              sudo systemctl enable gstream.service
+        with:
+          host: ${{ secrets.EC2_HOSTNAME }} 
+          username: ec2-user 
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          script: |
+            sudo systemctl daemon-reload
+            sudo systemctl start gstream.service
+            sudo systemctl enable gstream.service
