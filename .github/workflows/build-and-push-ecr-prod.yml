@@ -7,26 +7,60 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    environment: production
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-            fetch-depth: 0
-            ref: ${{github.ref}}
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Create .env file
+        run: |
+          echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env
+          echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
+          echo AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }} >> .env
+          echo NUXT_PUBLIC_GDOC_ENV=prod >> .env
+
+      - name: Build Nuxt.js application
+        run: |
+          npm run build
+
+      - name: Create a temporary directory for deployment artifacts
+        run: |
+          mkdir -p dist
+
+      - name: Copy generated files to dist directory
+        run: |
+          cp -r .output/* dist/
+
+      - name: Login to AWS
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{secrets.AWS_REGION}}  
+          region: ${{ secrets.AWS_REGION }}
 
-      - name: Build and Push Nuxt Image
-        run: |
-          docker build -t gstream/nuxt:prod .
-          docker tag gstream/nuxt:prod ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${AWS_REGION}.amazonaws.com/gstream/nuxt:prod
-          aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${AWS_REGION}.amazonaws.com
-          docker push ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${AWS_REGION}.amazonaws.com/gstream/nuxt:prod
+      - name: Connect to EC2 instance
+        uses: appleboy/ssh-action@v1.2.0
+          with:
+            hosts: ${{ secrets.EC2_HOSTNAME }} 
+            username: ec2-user 
+            key: ${{ secrets.SSH_PRIVATE_KEY }} 
+            script: |
+              sudo systemctl stop gstream.service 
+              sudo rm -rf /var/www/gstream/*
+              scp -r -P 22 dist/ ec2-user@${{ secrets.EC2_HOSTNAME }}:/var/www/gstream/
+
+      - name: Restart service
+        uses: appleboy/ssh-action@v1.2.0
+          with:
+            hosts: ${{ secrets.EC2_HOSTNAME }} 
+            username: ec2-user 
+            key: ${{ secrets.SSH_PRIVATE_KEY }} 
+            script: |
+              sudo systemctl daemon-reload
+              sudo systemctl start gstream.service
+              sudo systemctl enable gstream.service
