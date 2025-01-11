@@ -53,13 +53,13 @@ jobs:
           script: sudo rm -rf /var/www/gstream/*
       
       - name: scp dist to host
-        uses: pierrickdelrieu/scp-action@v0.1.0
+        uses: appleboy/scp-action@0.1.7
         with:
           host: ${{ secrets.EC2_HOSTNAME }} 
-          ssh_username: ec2-user 
-          ssh_key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          source_dir: dist
-          destination_dir: /var/www/gstream/
+          username: ec2-user 
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          source: dist
+          target: /var/www/gstream/
 
       - name: Restart service
         uses: appleboy/ssh-action@v1.2.0
