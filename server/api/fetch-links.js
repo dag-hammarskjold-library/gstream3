@@ -13,27 +13,19 @@ export default defineEventHandler(async (event) => {
 
     console.log("Searching DLX for the English file belonging to", query.symbol)
 
-    // Search the DLX REST API for the symbol
-    const dlxSearchUrl = `${dlxApiUrl}marc/bibs/records?search=symbol:'${query.symbol}'`
+    // Search the DLX REST API for the English file for the given symbol
+    // const dlxSearchUrl = `${dlxApiUrl}marc/bibs/records?search=symbol:'${query.symbol}'`
+    const dlxSearchUrl = `${dlxApiUrl}files?identifier=${query.symbol}&identifier_type=symbol&language=en`
     const dlxResponse = await fetch(dlxSearchUrl)
     const dlxJson = await dlxResponse.json()
     const dlxData = await dlxJson.data
 
-    // Get the record if we find one
+    // Get the English file by symbol if we find one
     try {
         if (dlxData.length == 1) {
-            const recordResponse = await fetch(dlxData[0])
-            const recordJson = await recordResponse.json()
-            const recordFiles = await recordJson.data.files
-
-            // And look through the files to display the English file if there is one
-            recordFiles.forEach(rf => {
-                if (rf.language == 'en') {
-                    returnData.push({
-                        "name": "DLX",
-                        "url": `${rf.url}?action=open`
-                    })
-                }
+            returnData.push({
+                "name": "DLX",
+                "url": `${dlxData[0]}?action=open`
             })
 
         }
