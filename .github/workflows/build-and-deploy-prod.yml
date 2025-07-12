@@ -1,3 +1,5 @@
+permissions:
+  contents: read
 name: (Prod) Build and deploy
 
 on:
