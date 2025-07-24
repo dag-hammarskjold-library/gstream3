@@ -10,8 +10,21 @@ export function useDocuments() {
         loading.value = true
         error.value = null
 
+        // remap duty station
+        let station = "NY"
+        switch (dutyStation) {
+            case "New York":
+                station = "NY"
+                break
+            case "Geneva":
+                station = "GE"
+                break
+            default:
+                station = dutyStation
+        }
+
         try {
-            const response = await fetch(`/api/fetch-symbols?date=${date}&dutyStation=${dutyStation}`)
+            const response = await fetch(`/api/fetch-log?date=${date}&station=${station}`)
             const data = await response.json()
             documents.value = data
         } catch (err: any) {

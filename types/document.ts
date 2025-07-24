@@ -15,7 +15,6 @@ export interface Document {
     files: DocumentFile[]
     links?: DocumentLink[]
 }
-
 export interface TableHeader {
     key: keyof Document
     label: string
