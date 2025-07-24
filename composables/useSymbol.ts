@@ -1,18 +1,18 @@
 import { ref } from 'vue'
-import type { DocumentLink } from '~/types/document'
+import type { Document } from '~/types/document'
 
-export function useLinks() {
+export function useSymbol() {
     const loading = ref(false)
     const error = ref<string | null>(null)
 
-    // Make fetchLinks return the data directly
-    const fetchLinks = async (symbol: string): Promise<DocumentLink[]> => {
+    const fetchSymbol = async (date: string, dutyStation: string, symbol: string): Promise<Document | null> => {
         loading.value = true
         error.value = null
 
         try {
-            const response = await fetch(`/api/fetch-links?symbol=${symbol}`)
+            const response = await fetch(`/api/fetch-symbol?date=${date}&station=${dutyStation}&symbol=${symbol}`)
             if (!response.ok) {
+                // Try to get error message from response, fallback to status text
                 let message = `Error ${response.status}: ${response.statusText}`
                 try {
                     const errorData = await response.json()
@@ -22,11 +22,10 @@ export function useLinks() {
                 throw new Error(message)
             }
             const data = await response.json()
-            //console.log(data)
-            return Array.isArray(data) ? data : []
+            return Array.isArray(data) ? data[0] : data
         } catch (err: any) {
             error.value = err?.message || 'Unknown error'
-            throw err
+            throw err // propagate error to caller
         } finally {
             loading.value = false
         }
@@ -35,6 +34,6 @@ export function useLinks() {
     return {
         loading,
         error,
-        fetchLinks
+        fetchSymbol
     }
 }
