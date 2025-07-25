@@ -15,7 +15,7 @@
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <tr v-for="doc in documents" :key="doc._id">
-          <td class="px-6 py-4 whitespace-nowrap">{{ doc.symbol1 }}</td>
+          <td class="px-6 py-4 whitespace-wrap">{{ doc.symbol1 }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ doc.symbol2 }}</td>
           <td class="px-6 py-4">{{ doc.title }}</td>
           <td class="px-6 py-4">

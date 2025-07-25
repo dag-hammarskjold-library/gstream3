@@ -10,6 +10,9 @@ export default defineNuxtConfig({
       gdocEnv: process.env.GDOC_ENV || 'prod'
     },
   },
+  mongoose: {
+    uri: process.env.MONGODB_URI
+  },
   app: {
     head: {
       title: 'Document System',
