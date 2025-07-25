@@ -1,7 +1,10 @@
 <template>
     <div class="container mx-auto px-4 py-8">
         <div class="mb-8 space-y-4">
-            <h1 class="text-2xl font-bold text-gray-900">gStream Documents List</h1>
+            <h1 class="text-2xl font-bold text-gray-900">
+              gStream3 Documents List 
+            </h1>
+            <span class="small">{{ config.public.version }} {{ config.public.gdocEnv }}</span>
 
             <div class="flex gap-4">
                 <div class="w-64">
@@ -56,6 +59,7 @@ import type { LocationQueryRaw } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
+const config = useRuntimeConfig()
 
 const dutyStations = ['Beirut', 'Geneva', 'Nairobi', 'New York', 'Vienna']
 const { documents, loading, error, fetchDocuments } = useDocuments()
