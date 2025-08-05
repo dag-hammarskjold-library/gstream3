@@ -16,7 +16,7 @@
     "adm-zip": "^0.5.16",
     "axios": "^1.7.9",
     "dayjs-nuxt": "^2.1.11",
-    "nuxt": "^3.14.1592",
+    "nuxt": "^4.0.2",
     "nuxt-mongoose": "^1.0.6",
     "vue": "latest",
     "vue-router": "latest",
