@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['dayjs-nuxt', '@nuxtjs/tailwindcss', 'nuxt-mongoose'],
+  modules: ['dayjs-nuxt', '@nuxtjs/tailwindcss', 'nuxt-mongoose', '@nuxt/test-utils/module'],
   runtimeConfig: {
     AwsAcessKeyId: process.env.AWS_ACCESS_KEY_ID || 'none',
     AwsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'none',
