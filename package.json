@@ -8,7 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "start": "node .output/server/index.mjs"
+    "start": "node .output/server/index.mjs",
+    "test": "vitest --run",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.709.0",
@@ -21,5 +23,14 @@
     "vue": "latest",
     "vue-router": "latest",
     "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^3.19.2",
+    "@testing-library/vue": "^8.1.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^18.0.1",
+    "playwright-core": "^1.54.2",
+    "vitest": "^3.2.4"
   }
 }
