@@ -16,7 +16,7 @@
     "@aws-sdk/client-ssm": "^3.883.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "adm-zip": "^0.5.16",
-    "axios": "1.11.0",
+    "axios": "1.12.1",
     "dayjs-nuxt": "^2.1.11",
     "nuxt": "4.1.1",
     "nuxt-mongoose": "^1.0.6",
