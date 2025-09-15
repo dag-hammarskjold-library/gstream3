@@ -13,7 +13,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@aws-sdk/client-ssm": "^3.883.0",
+    "@aws-sdk/client-ssm": "^3.888.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "adm-zip": "^0.5.16",
     "axios": "1.11.0",
