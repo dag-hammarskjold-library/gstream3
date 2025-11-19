@@ -14,10 +14,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Use pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
       - name: Install dependencies
         run: |
-          npm install
+          pnpm install
 
       - name: Create .env file
         run: |
@@ -29,7 +34,7 @@ jobs:
 
       - name: Build Nuxt.js application
         run: |
-          npm run build
+          pnpm run build
 
       - name: Create a temporary directory for deployment artifacts
         run: |

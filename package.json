@@ -13,24 +13,25 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@aws-sdk/client-ssm": "^3.928.0",
-    "@nuxtjs/tailwindcss": "^6.12.2",
+    "@aws-sdk/client-ssm": "^3.934.0",
+    "@nuxtjs/tailwindcss": "^6.14.0",
     "adm-zip": "^0.5.16",
-    "axios": "1.13.1",
+    "axios": "1.13.2",
     "dayjs-nuxt": "^2.1.11",
-    "nuxt": "4.2.0",
+    "nuxt": "4.2.1",
     "nuxt-mongoose": "^1.0.6",
+    "vite": "^7.2.2",
     "vue": "3.5.24",
-    "vue-router": "latest",
+    "vue-router": "4.6.3",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@nuxt/test-utils": "^3.19.2",
+    "@nuxt/test-utils": "^3.20.1",
     "@testing-library/vue": "^8.1.0",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.10",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^20.0.10",
     "playwright-core": "^1.56.1",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.10"
   }
 }
