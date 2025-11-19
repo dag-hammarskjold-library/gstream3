@@ -10,7 +10,7 @@ export function useSymbol() {
         error.value = null
 
         try {
-            const response = await fetch(`/api/fetch-symbol?date=${date}&station=${dutyStation}&symbol=${symbol}`)
+            const response = await fetch(`/api/fetch-symbol?date=${date}&dutyStation=${dutyStation}&symbol=${symbol}`)
             if (!response.ok) {
                 // Try to get error message from response, fallback to status text
                 let message = `Error ${response.status}: ${response.statusText}`
