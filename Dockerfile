@@ -1,14 +1,18 @@
-FROM node:18.20.4
+FROM node:20-slim
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN pnpm install
 
 COPY . .
 
 EXPOSE 3000
 
 RUN npm run build
-CMD [ "npm", "run", "start" ]
+CMD [ "pnpm", "run", "start" ]
