@@ -1,6 +1,12 @@
 export interface DocumentFile {
     languageId: string
     odsNo: string
+    fileId?: string
+}
+
+export interface DocumentEvent {
+    date: string
+    message: string
 }
 
 export interface DocumentLink {
@@ -13,6 +19,8 @@ export interface Document {
     symbol2: string
     title: string
     files: DocumentFile[]
+    _id?: string
+    history?: DocumentEvent[]
     links?: DocumentLink[]
 }
 export interface TableHeader {

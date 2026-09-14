@@ -15,11 +15,21 @@
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <tr v-for="doc in documents" :key="doc._id">
-          <td class="px-6 py-4 whitespace-wrap">{{ doc.symbol1 }}</td>
+          <td class="px-6 py-4 whitespace-wrap">
+            <div>{{ doc.symbol1 }}</div>
+            <details v-if="doc.history?.length" class="mt-2 text-sm">
+              <summary class="cursor-pointer text-indigo-700">Log events ({{ doc.history.length }})</summary>
+              <ul class="mt-2 space-y-1 text-gray-600">
+                <li v-for="(event, index) in doc.history" :key="`${event.date}-${index}`">
+                  <span class="font-medium">{{ event.date }}</span>: {{ event.message }}
+                </li>
+              </ul>
+            </details>
+          </td>
           <td class="px-6 py-4 whitespace-nowrap">{{ doc.symbol2 }}</td>
           <td class="px-6 py-4">{{ doc.title }}</td>
           <td class="px-6 py-4">
-            <span v-for="file in doc.files" :key="file.file_id" class="inline-block mr-2">
+            <span v-for="(file, index) in doc.files" :key="file.fileId || `${doc.symbol1}-${index}`" class="inline-block mr-2">
               {{ file.languageId }}: {{ file.odsNo }}
             </span>
           </td>
