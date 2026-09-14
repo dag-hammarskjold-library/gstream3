@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     AwsAcessKeyId: process.env.AWS_ACCESS_KEY_ID || 'none',
     AwsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'none',
     public: {
-      version: "v0.1.16",
+      version: "v0.2.0",
       gdocEnv: process.env.GDOC_ENV || 'prod'
     },
   },
