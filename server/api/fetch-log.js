@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import dayjs from 'dayjs'
 
 export default defineEventHandler(async (event) => {
@@ -12,23 +11,6 @@ export default defineEventHandler(async (event) => {
       find_doc = {gdoc_date: date, gdoc_station: dutyStation, imported: true, symbols: symbol}
     }
     const entries = await GdocSchema.find(find_doc)
-    const historyFilter = {gdoc_station: dutyStation}
-    if (symbol) {
-      historyFilter.symbols = symbol
-    }
-    const historyEntries = await GdocSchema.find(historyFilter).sort({gdoc_date: -1, _id: -1})
-    const historyBySymbol = {}
-    historyEntries.forEach(e => {
-      e.symbols.forEach(entrySymbol => {
-        if (!historyBySymbol[entrySymbol]) historyBySymbol[entrySymbol] = []
-        historyBySymbol[entrySymbol].push({
-          date: e.gdoc_date,
-          message: typeof e.message === 'string'
-            ? e.message
-            : e.message?.message || e.message?.status || e.message?.text || JSON.stringify(e.message)
-        })
-      })
-    })
     let foundSymbols = []
     let symbolObjects = {}
     entries.forEach(e => {
@@ -55,7 +37,7 @@ export default defineEventHandler(async (event) => {
           sessionNo: "",
           distributionType: "",
           title: "",
-          history: historyBySymbol[symbol1] || [],
+          historyUrl: `/api/fetch-history?station=${encodeURIComponent(dutyStation)}&symbol=${encodeURIComponent(symbol1)}`,
           files: [{
             embargo: "",
             languageId: e.languages.join(", "),

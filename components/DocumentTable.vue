@@ -17,11 +17,21 @@
         <tr v-for="doc in documents" :key="doc._id">
           <td class="px-6 py-4 whitespace-wrap">
             <div>{{ doc.symbol1 }}</div>
-            <details v-if="doc.history?.length" class="mt-2 text-sm">
-              <summary class="cursor-pointer text-indigo-700">Log events ({{ doc.history.length }})</summary>
+            <details v-if="doc.historyUrl" class="mt-2 text-sm" @toggle="loadHistory(doc)">
+              <summary class="cursor-pointer text-indigo-700">
+                Log events<span v-if="historyById[doc._id]"> ({{ historyById[doc._id].length }})</span>
+              </summary>
+              <div v-if="historyLoading[doc._id]" class="mt-2 text-gray-500">Loading...</div>
+              <div v-else-if="historyErrors[doc._id]" class="mt-2 text-red-600">
+                {{ historyErrors[doc._id] }}
+              </div>
               <ul class="mt-2 space-y-1 text-gray-600">
-                <li v-for="(event, index) in doc.history" :key="`${event.date}-${index}`">
-                  <span class="font-medium">{{ event.date }}</span>: {{ event.message }}
+                <li v-for="(event, index) in historyById[doc._id] || []" :key="`${event.date}-${index}`">
+                  <span class="font-medium">{{ event.dates?.join(', ') || event.date }}</span>:
+                  <span v-if="event.info"> info={{ event.info }}</span>
+                  <span v-else>{{ event.message }}</span>
+                  <span v-if="event.data?.language"> language={{ event.data.language }}</span>
+                  <pre v-if="event.data?.symbol" class="mt-1 rounded bg-gray-50 p-2 text-xs">{{ JSON.stringify({ symbol: event.data.symbol }, null, 2) }}</pre>
                 </li>
               </ul>
             </details>
@@ -68,7 +78,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Document, TableHeader } from '~/types/document'
+import { ref } from 'vue'
+import type { Document, DocumentEvent, TableHeader } from '~/types/document'
+
+const historyById = ref<Record<string, DocumentEvent[]>>({})
+const historyLoading = ref<Record<string, boolean>>({})
+const historyErrors = ref<Record<string, string>>({})
 
 const props = defineProps<{
   documents: Document[]
@@ -80,6 +95,22 @@ const props = defineProps<{
   onRetryEnrichment?: (_id: string) => void
   onRetryLinks?: (_id: string) => void
 }>()
+
+async function loadHistory(document: Document) {
+  if (!document.historyUrl || historyById.value[document._id] || historyLoading.value[document._id]) return
+
+  historyLoading.value[document._id] = true
+  delete historyErrors.value[document._id]
+  try {
+    const response = await fetch(document.historyUrl)
+    if (!response.ok) throw new Error(`History request failed: ${response.status}`)
+    historyById.value[document._id] = await response.json()
+  } catch (error: any) {
+    historyErrors.value[document._id] = error?.message || 'History request failed'
+  } finally {
+    historyLoading.value[document._id] = false
+  }
+}
 
 defineEmits<{
   (e: 'sort', key: keyof Document): void
