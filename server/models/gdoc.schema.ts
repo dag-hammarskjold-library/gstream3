@@ -15,6 +15,9 @@ export const GdocSchema = defineMongooseModel({
     gdoc_date: {
       type: String
     },
+    time: {
+      type: Date
+    },
     symbols: {
       type: Array
     },

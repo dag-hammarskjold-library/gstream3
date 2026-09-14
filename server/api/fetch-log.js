@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import dayjs from 'dayjs'
 
 export default defineEventHandler(async (event) => {
@@ -38,6 +37,7 @@ export default defineEventHandler(async (event) => {
           sessionNo: "",
           distributionType: "",
           title: "",
+          historyUrl: `/api/fetch-history?station=${encodeURIComponent(dutyStation)}&symbol=${encodeURIComponent(symbol1)}`,
           files: [{
             embargo: "",
             languageId: e.languages.join(", "),
