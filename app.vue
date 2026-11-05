@@ -61,7 +61,7 @@ const route = useRoute()
 const router = useRouter()
 const config = useRuntimeConfig()
 
-const dutyStations = ['Beirut', 'Geneva', 'Nairobi', 'New York', 'Vienna']
+const dutyStations = ['Bangkok', 'Beirut', 'Geneva', 'Nairobi', 'New York', 'Vienna']
 const { documents, loading, error, fetchDocuments } = useDocuments()
 const { fetchSymbol } = useSymbol()
 const { fetchLinks } = useLinks() // Assume you have a composable for links
