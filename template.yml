@@ -21,8 +21,13 @@ Resources:
         Variables:
           AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
           PORT: 8080
-          MONGODB_URI: !Sub '{{resolve:ssm-secure:${MongoDbUriParameter}}}'
-          NUXT_MONGOOSE_URI: !Sub '{{resolve:ssm-secure:${MongoDbUriParameter}}}'
+          MONGODB_URI_PARAMETER: !Ref MongoDbUriParameter
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameter
+              Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${MongoDbUriParameter}
       FunctionUrlConfig:
         AuthType: NONE
         Cors:
