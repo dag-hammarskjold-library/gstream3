@@ -4,13 +4,14 @@ import type { Document } from '~/types/document'
 export function useSymbol() {
     const loading = ref(false)
     const error = ref<string | null>(null)
+    const apiBase = `${useRuntimeConfig().app.baseURL}api/`
 
     const fetchSymbol = async (date: string, dutyStation: string, symbol: string): Promise<Document | null> => {
         loading.value = true
         error.value = null
 
         try {
-            const response = await fetch(`/api/fetch-symbol?date=${date}&dutyStation=${dutyStation}&symbol=${symbol}`)
+            const response = await fetch(`${apiBase}fetch-symbol?date=${date}&dutyStation=${dutyStation}&symbol=${symbol}`)
             if (!response.ok) {
                 // Try to get error message from response, fallback to status text
                 let message = `Error ${response.status}: ${response.statusText}`

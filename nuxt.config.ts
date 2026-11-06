@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     uri: process.env.MONGODB_URI
   },
   app: {
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
     head: {
       title: 'Document System',
       meta: [

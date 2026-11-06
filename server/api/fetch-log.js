@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
+  const apiBase = `${useRuntimeConfig(event).app.baseURL}api/`
   const symbol = query.symbol ? query.symbol : false
   const date = query.date ? query.date : dayjs().subtract(1, 'day').format('YYYY-MM-DD')
   const dutyStation = query.station ? query.station : "NY"
@@ -37,7 +38,7 @@ export default defineEventHandler(async (event) => {
           sessionNo: "",
           distributionType: "",
           title: "",
-          historyUrl: `/api/fetch-history?station=${encodeURIComponent(dutyStation)}&symbol=${encodeURIComponent(symbol1)}`,
+          historyUrl: `${apiBase}fetch-history?station=${encodeURIComponent(dutyStation)}&symbol=${encodeURIComponent(symbol1)}`,
           files: [{
             embargo: "",
             languageId: e.languages.join(", "),

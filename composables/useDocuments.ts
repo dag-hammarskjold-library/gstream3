@@ -5,6 +5,7 @@ export function useDocuments() {
     const documents: Ref<Document[]> = ref([])
     const loading = ref(false)
     const error = ref(null)
+    const apiBase = `${useRuntimeConfig().app.baseURL}api/`
     let requestId = 0
 
     const fetchDocuments = async (date: string, dutyStation: string) => {
@@ -26,7 +27,7 @@ export function useDocuments() {
         }
 
         try {
-            const logResponse = await fetch(`/api/fetch-log?date=${date}&station=${station}`)
+            const logResponse = await fetch(`${apiBase}fetch-log?date=${date}&station=${station}`)
             if (!logResponse.ok) throw new Error(`Log request failed: ${logResponse.status}`)
             const logData = await logResponse.json()
             if (currentRequestId !== requestId) return
@@ -37,7 +38,7 @@ export function useDocuments() {
             documents.value = Array.from(documentsBySymbol.values())
             loading.value = false
 
-            fetch(`/api/fetch-symbols?date=${date}&dutyStation=${encodeURIComponent(dutyStation)}`)
+            fetch(`${apiBase}fetch-symbols?date=${date}&dutyStation=${encodeURIComponent(dutyStation)}`)
                 .then(async liveResponse => {
                     if (!liveResponse.ok) throw new Error(`Live symbol request failed: ${liveResponse.status}`)
                     return liveResponse.json()
@@ -51,7 +52,7 @@ export function useDocuments() {
                             documentsBySymbol.set(liveDocument.symbol1, {
                                 ...liveDocument,
                                 _id: `live-${liveDocument.symbol1}`,
-                                historyUrl: `/api/fetch-history?station=${encodeURIComponent(station)}&symbol=${encodeURIComponent(liveDocument.symbol1)}`,
+                                historyUrl: `${apiBase}fetch-history?station=${encodeURIComponent(station)}&symbol=${encodeURIComponent(liveDocument.symbol1)}`,
                                 history: []
                             })
                             return

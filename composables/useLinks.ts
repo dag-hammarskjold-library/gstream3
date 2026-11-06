@@ -4,6 +4,7 @@ import type { DocumentLink } from '~/types/document'
 export function useLinks() {
     const loading = ref(false)
     const error = ref<string | null>(null)
+    const apiBase = `${useRuntimeConfig().app.baseURL}api/`
 
     // Make fetchLinks return the data directly
     const fetchLinks = async (symbol: string): Promise<DocumentLink[]> => {
@@ -11,7 +12,7 @@ export function useLinks() {
         error.value = null
 
         try {
-            const response = await fetch(`/api/fetch-links?symbol=${symbol}`)
+            const response = await fetch(`${apiBase}fetch-links?symbol=${symbol}`)
             if (!response.ok) {
                 let message = `Error ${response.status}: ${response.statusText}`
                 try {
