@@ -35,47 +35,41 @@ jobs:
       - name: Build Nuxt.js application
         run: |
           pnpm run build
+        env:
+          NUXT_APP_BASE_URL: /gstream3/
 
-      - name: Create a temporary directory for deployment artifacts
+      - name: Prepare Lambda Web Adapter entrypoint
         run: |
-          mkdir -p dist
+          cat > .output/run.sh <<'EOF'
+          #!/bin/sh
+          exec node /var/task/server/index.mjs
+          EOF
+          chmod +x .output/run.sh
 
-      - name: Copy generated files to dist directory
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Set up AWS SAM CLI
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - name: SAM Build
         run: |
-          cp -r .output/* dist/
+          sam build --template-file template.yml
 
-      - name: Stop gstream service
-        uses: appleboy/ssh-action@v1.2.5
-        with:
-          host: ${{ secrets.EC2_HOSTNAME }} 
-          username: ec2-user 
-          key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          script: sudo systemctl stop gstream.service 
-      
-      - name: Remove existing deployment
-        uses: appleboy/ssh-action@v1.2.5
-        with:
-          host: ${{ secrets.EC2_HOSTNAME }} 
-          username: ec2-user 
-          key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          script: sudo rm -rf /var/www/gstream/*
-      
-      - name: scp dist to host
-        uses: appleboy/scp-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOSTNAME }} 
-          username: ec2-user 
-          key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          source: dist
-          target: /var/www/gstream/
-
-      - name: Restart service
-        uses: appleboy/ssh-action@v1.2.5
-        with:
-          host: ${{ secrets.EC2_HOSTNAME }} 
-          username: ec2-user 
-          key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          script: |
-            sudo systemctl daemon-reload
-            sudo systemctl start gstream.service
-            sudo systemctl enable gstream.service
+      - name: SAM Deploy
+        run: |
+          sam deploy \
+            --template-file .aws-sam/build/template.yaml \
+            --stack-name gstream3-prod \
+            --region "${{ secrets.AWS_REGION }}" \
+            --resolve-s3 \
+            --capabilities CAPABILITY_IAM \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --stack-tags Environment=prod
