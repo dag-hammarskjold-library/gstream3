@@ -11,7 +11,7 @@ Resources:
       MemorySize: 1024
       Timeout: 30
       Layers:
-        - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:AWSLambdaWebAdapter:25
+        - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:LambdaAdapterLayerX86:30
       Environment:
         Variables:
           AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
@@ -24,7 +24,6 @@ Resources:
           AllowMethods:
             - GET
             - HEAD
-            - OPTIONS
           AllowHeaders:
             - Content-Type
 
