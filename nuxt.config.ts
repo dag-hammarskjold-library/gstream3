@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     },
   },
   mongoose: {
-    uri: process.env.MONGODB_URI
+    uri: process.env.NUXT_MONGOOSE_URI || process.env.MONGODB_URI
   },
   app: {
     baseURL: process.env.NUXT_APP_BASE_URL || '/',

@@ -1,6 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
+Parameters:
+  MongoDbUriParameter:
+    Type: String
+    Default: /gstream3/prod/mongodb-uri
+
 Resources:
   SimpleFunction:
     Type: AWS::Serverless::Function
@@ -16,6 +21,8 @@ Resources:
         Variables:
           AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
           PORT: 8080
+          MONGODB_URI: !Sub '{{resolve:ssm-secure:${MongoDbUriParameter}}}'
+          NUXT_MONGOOSE_URI: !Sub '{{resolve:ssm-secure:${MongoDbUriParameter}}}'
       FunctionUrlConfig:
         AuthType: NONE
         Cors:
