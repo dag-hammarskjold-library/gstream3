@@ -27,3 +27,5 @@ logs
 coverage
 
 package-lock.json
+
+.aws-sam

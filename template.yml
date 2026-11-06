@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  SimpleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .output/
+      Handler: run.sh
+      Runtime: nodejs22.x
+      MemorySize: 1024
+      Timeout: 30
+      Layers:
+        - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:LambdaAdapterLayerX86:30
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
+          PORT: 8080
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowOrigins:
+            - https://metadata.un.org
+          AllowMethods:
+            - GET
+            - HEAD
+          AllowHeaders:
+            - Content-Type
+
+Outputs:
+  FunctionUrl:
+    Description: Public Lambda Function URL
+    Value: !GetAtt SimpleFunctionUrl.FunctionUrl
