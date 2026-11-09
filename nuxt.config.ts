@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     uri: process.env.NUXT_MONGOOSE_URI || process.env.MONGODB_URI,
     options: {
       maxPoolSize: 5,
-      maxIdleTimeMS: 60000,
       serverSelectionTimeoutMS: 10000,
       connectTimeoutMS: 10000
     }

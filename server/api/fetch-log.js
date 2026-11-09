@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { ensureMongoConnection } from '../utils/ensure-mongo-connection.js'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
@@ -7,6 +8,7 @@ export default defineEventHandler(async (event) => {
   const date = query.date ? query.date : dayjs().subtract(1, 'day').format('YYYY-MM-DD')
   const dutyStation = query.station ? query.station : "NY"
   try {
+    await ensureMongoConnection()
     let find_doc = {gdoc_date: date, gdoc_station: dutyStation, imported: true}
     if (symbol) {
       find_doc = {gdoc_date: date, gdoc_station: dutyStation, imported: true, symbols: symbol}

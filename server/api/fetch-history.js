@@ -1,3 +1,5 @@
+import { ensureMongoConnection } from '../utils/ensure-mongo-connection.js'
+
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const symbol = query.symbol ? query.symbol : false
@@ -9,6 +11,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
+    await ensureMongoConnection()
     const historyFilter = { gdoc_station: dutyStation, symbols: symbol }
     if (date) {
       historyFilter.gdoc_date = date
