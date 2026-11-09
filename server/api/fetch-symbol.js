@@ -8,21 +8,10 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const gdocEnv = config.public.gdocEnv
     console.log("Using GDOC_ENV", gdocEnv)
-    const id = config.AwsAcessKeyId
-    const key = config.AwsSecretAccessKey
-
-
-    const credentials = () => {
-        return {
-            accessKeyId: id,
-            secretAccessKey: key
-        }
-    }
 
     console.log("Authenticating with AWS")
     const ssm = new SSMClient({
-        region: 'us-east-1',
-        credentials: credentials
+        region: 'us-east-1'
     })
 
     const parameter = `gdoc-${gdocEnv}-api-secrets`

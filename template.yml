@@ -28,6 +28,10 @@ Resources:
               Action:
                 - ssm:GetParameter
               Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${MongoDbUriParameter}
+            - Effect: Allow
+              Action:
+                - ssm:GetParameter
+              Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/gdoc-prod-api-secrets
       FunctionUrlConfig:
         AuthType: NONE
         Cors:
