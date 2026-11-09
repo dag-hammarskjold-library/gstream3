@@ -1,9 +1,12 @@
-// Basic server health check
+import mongoose from 'mongoose'
+
 export default defineEventHandler(async (event) => {
-  try {
-    // You can add more complex health checks here if needed
-    return { status: 'ok', message: 'Server is healthy' }
-  } catch (error) {
-    return { status: 'error', message: 'Server health check failed', error: error.message }
+  if (mongoose.connection.readyState !== 1) {
+    throw createError({
+      statusCode: 503,
+      statusMessage: 'MongoDB is not connected'
+    })
   }
+
+  return { status: 'ok', message: 'Server is healthy' }
 })

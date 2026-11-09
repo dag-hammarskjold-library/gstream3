@@ -10,7 +10,13 @@ export default defineNuxtConfig({
     },
   },
   mongoose: {
-    uri: process.env.NUXT_MONGOOSE_URI || process.env.MONGODB_URI
+    uri: process.env.NUXT_MONGOOSE_URI || process.env.MONGODB_URI,
+    options: {
+      maxPoolSize: 5,
+      maxIdleTimeMS: 60000,
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000
+    }
   },
   app: {
     baseURL: process.env.NUXT_APP_BASE_URL || '/',
