@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: ['dayjs-nuxt', '@nuxtjs/tailwindcss', 'nuxt-mongoose', '@nuxt/test-utils/module'],
   runtimeConfig: {
     public: {
-      version: "v0.3.3",
+      version: "v0.3.4",
       gdocEnv: process.env.GDOC_ENV || 'prod'
     },
   },
