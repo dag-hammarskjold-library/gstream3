@@ -47,7 +47,7 @@ importers:
     devDependencies:
       '@nuxt/test-utils':
         specifier: ^4.3.4
-        version: 4.3.4(4fd67c3859eea5fda7ee55741c4907a0)
+        version: 4.3.4(0d67a072aca07ec0152b53f48f4de4e3)
       '@testing-library/vue':
         specifier: ^8.1.0
         version: 8.1.0(@vue/compiler-dom@3.5.45)(@vue/compiler-sfc@3.5.44)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
@@ -55,8 +55,8 @@ importers:
         specifier: ^5.0.5
         version: 5.0.5(vitest@5.0.5)
       '@vue/test-utils':
-        specifier: ^2.5.1
-        version: 2.5.1(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
+        specifier: ^2.6.0
+        version: 2.6.0(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
       happy-dom:
         specifier: ^21.0.4
         version: 21.0.4
@@ -2057,8 +2057,8 @@ packages:
   '@vue/shared@3.5.45':
     resolution: {integrity: sha512-ue9fgHmVNPlP7iW3+cxoBX/Cnlw53dHlVSw0JKGY6z1lObg8pHoj928M2nzG4/yVsMZ3NaRZ2s2z61uC16NDwQ==}
 
-  '@vue/test-utils@2.5.1':
-    resolution: {integrity: sha512-V/4a99odJ7hapr0bRt35XxljGk8hefq31gSOnlKTcEq2fUeoj2qb+FcpJYfQu4qfYhW9Ug+O2+CZ3QmZ7gXDzA==}
+  '@vue/test-utils@2.6.0':
+    resolution: {integrity: sha512-kTB6s2p34cA/xXSpt17G0enU9A3F3pdm+o5GZgE3WGXXXpXJ5SVBsRhgCJNCc+ekGAzY0T7Hjyo5yEfwencBlg==}
     peerDependencies:
       '@vue/compiler-dom': 3.x
       '@vue/server-renderer': 3.x
@@ -6402,7 +6402,7 @@ snapshots:
       rc9: 3.1.0
       std-env: 4.3.0
 
-  '@nuxt/test-utils@4.3.4(4fd67c3859eea5fda7ee55741c4907a0)':
+  '@nuxt/test-utils@4.3.4(0d67a072aca07ec0152b53f48f4de4e3)':
     dependencies:
       '@clack/prompts': 1.8.1
       '@nuxt/devtools-kit': 3.4.4(@nuxt/schema@4.6.4)(confbox@0.3.2)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.5)(mlly@1.8.2)(rolldown@1.2.16)(unplugin@3.7.0(esbuild@0.28.2)(rolldown@1.2.16)(rollup@4.68.0)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2))
@@ -6427,7 +6427,7 @@ snapshots:
       vue: 3.5.45(typescript@7.0.2)
     optionalDependencies:
       '@testing-library/vue': 8.1.0(@vue/compiler-dom@3.5.45)(@vue/compiler-sfc@3.5.44)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
-      '@vue/test-utils': 2.5.1(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
+      '@vue/test-utils': 2.6.0(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
       h3: 1.15.11
       happy-dom: 21.0.4
       nuxt: 4.6.4(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.156.0)(@types/node@26.6.6)(@vue/compiler-sfc@3.5.44)(acorn@8.19.0)(confbox@0.3.2)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(rolldown@1.2.16)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.16)(rollup@4.68.0))(rollup@4.68.0)(srvx@1.0.8)(supports-color@10.2.2)(terser@5.51.2)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2))(xml2js@0.6.2)
@@ -7084,7 +7084,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.10
       '@testing-library/dom': 9.3.4
-      '@vue/test-utils': 2.5.1(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
+      '@vue/test-utils': 2.6.0(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))
       vue: 3.5.45(typescript@7.0.2)
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.44
@@ -7667,12 +7667,12 @@ snapshots:
 
   '@vue/shared@3.5.45': {}
 
-  '@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))':
+  '@vue/test-utils@2.6.0(@vue/compiler-dom@3.5.45)(@vue/server-renderer@3.5.45)(vue@3.5.45(typescript@7.0.2))':
     dependencies:
       '@vue/compiler-dom': 3.5.45
       js-beautify: 2.0.3
       vue: 3.5.45(typescript@7.0.2)
-      vue-component-type-helpers: 3.3.13
+      vue-component-type-helpers: 3.3.14
     optionalDependencies:
       '@vue/server-renderer': 3.5.45
 
@@ -11019,7 +11019,7 @@ snapshots:
 
   vitest-environment-nuxt@2.0.0:
     dependencies:
-      '@nuxt/test-utils': 4.3.4(4fd67c3859eea5fda7ee55741c4907a0)
+      '@nuxt/test-utils': 4.3.4(0d67a072aca07ec0152b53f48f4de4e3)
 
   vitest@5.0.5(@types/node@26.6.6)(@vitest/coverage-v8@5.0.5)(happy-dom@21.0.4)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)):
     dependencies:
